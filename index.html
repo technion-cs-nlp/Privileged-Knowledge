@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-DGPYH7EL9N"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-DGPYH7EL9N');
+  </script>
+  <meta name="description" content="Masked by Consensus: Disentangling Privileged Knowledge in LLM Correctness">
+  <meta property="og:title" content="Masked by Consensus: Disentangling Privileged Knowledge in LLM Correctness" />
+  <meta property="og:description"
+    content="Do LLMs possess privileged knowledge about their own correctness? We show it is masked by inter-model consensus and re-emerges in factual domains." />
+  <meta property="og:url" content="https://technion-cs-nlp.github.io/CRISP/" />
+  <meta property="og:image" content="static/images/main_method.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+
+  <meta name="twitter:title" content="Masked by Consensus: Disentangling Privileged Knowledge in LLM Correctness">
+  <meta name="twitter:description"
+    content="Do LLMs possess privileged knowledge about their own correctness? We show it is masked by inter-model consensus and re-emerges in factual domains.">
+  <meta name="twitter:image" content="static/images/main_method.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <meta name="keywords" content="LLM, privileged knowledge, epistemic privilege, correctness, machine learning, NLP">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Masked by Consensus: Disentangling Privileged Knowledge in LLM Correctness</title>
+  <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script src="static/js/bulma-carousel.min.js"></script>
+  <script src="static/js/bulma-slider.min.js"></script>
+  <script src="static/js/index.js"></script>
+
+  <style>
+    /* Ensure images and figures are centered and responsive */
+    figure img {
+      display: block;
+      margin: 0 auto;
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* Adjust container padding for smaller screens */
+    .container.is-max-desktop {
+      padding: 0 1rem;
+    }
+
+    /* Ensure text is readable on smaller screens */
+    .content {
+      font-size: 1rem;
+    }
+  </style>
+
+  <!-- SEO Meta Tags -->
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="Tomer Ashuach">
+  <meta name="subject" content="Disentangling Privileged Knowledge in LLM Correctness">
+  <meta name="language" content="en">
+  <meta name="coverage" content="Worldwide">
+  <meta name="distribution" content="Global">
+  <meta name="rating" content="General">
+  <meta name="revisit-after" content="7 days">
+
+  <!-- Open Graph Tags -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Masked by Consensus">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:url" content="https://technion-cs-nlp.github.io/CRISP/">
+
+  <!-- Twitter Card Tags -->
+  <meta name="twitter:site" content="@tomerashuach">
+  <meta name="twitter:creator" content="@tomerashuach">
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://technion-cs-nlp.github.io/CRISP/">
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Masked by Consensus: Disentangling Privileged Knowledge in LLM Correctness",
+    "description": "Investigating whether LLMs possess privileged knowledge regarding their own correctness.",
+    "url": "https://tomerashuach.github.io/",
+    "author": {
+      "@type": "Person",
+      "name": "Tomer Ashuach"
+    },
+    "publisher": {
+      "@type": "Person",
+      "name": "Tomer Ashuach"
+    },
+    "image": "https://tomerashuach.github.io/static/images/main_method.png",
+    "inLanguage": "en"
+  }
+  </script>
+
+</head>
+
+<body>
+
+  <!-- Title Section -->
+  <section class="hero publication-title-section" style="background-color: lightblue;">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">Masked by Consensus: Disentangling Privileged Knowledge in LLM
+              Correctness</h1>
+            <div class="is-size-5 publication-authors" style="color: #000000 !important;">
+              <span class="author-block">
+                <a href="https://tomerashuach.github.io/" target="_blank">Tomer Ashuach</a>,</span>
+              <span class="author-block">
+                <a href="https://scholar.google.com/citations?user=V_IZ86YAAAAJ&hl=en" target="_blank">Liat
+                  Ein-Dor</a>,</span>
+              <span class="author-block">
+                <a href="https://www.linkedin.com/in/shai-gretz-20400666/" target="_blank">Shai Gretz</a>,</span>
+              <span class="author-block">
+                <a href="https://scholar.google.com/citations?user=EfW-wnAAAAAJ&hl=en" target="_blank">Yoav
+                  Katz</a>,</span>
+              <span class="author-block">
+                <a href="https://belinkov.com/" target="_blank">Yonatan Belinkov</a>
+              </span>
+            </div>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">Technion – Israel Institute of Technology</span>,
+              <span class="author-block">IBM Research</span>
+            </div>
+
+            <div class="publication-links">
+              <span class="link-block">
+                <a href="#" target="_blank" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fas fa-file-pdf"></i></span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="#" target="_blank" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="ai ai-arxiv"></i></span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Abstract -->
+  <section class="section hero is-white">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Abstract</h2>
+          <div class="content has-text-justified">
+            <p>
+              Humans use introspection to evaluate their understanding through private internal states inaccessible to
+              external observers. Recent work suggests that large language models possess similar <em>privileged
+                knowledge</em>—information unavailable through external observation. In this work, we ask whether models
+              have unique signals about answer correctness given only the question. We train correctness classifiers on
+              question representations from both a model's own hidden states and external models, finding no advantage:
+              self-probes perform comparably to peer-model probes. We hypothesize this is due to high inter-model
+              agreement of question-answer correctness. To isolate genuine privileged knowledge, we construct
+              <em>disagreement subsets</em>, where models produce conflicting predictions. Here, we discover
+              domain-specific privileged knowledge: self-representations consistently outperform peer representations in
+              factual knowledge tasks, but show no advantage in mathematical reasoning. We explore potential mechanisms
+              underlying this distinction, finding evidence that factual correctness relies on entity-driven memory
+              retrieval while mathematical correctness may involve more universal computational patterns.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Method Overview -->
+  <section class="section hero is-white">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Method Overview</h2>
+          <div class="content has-text-justified">
+            <p>
+              We train correctness probes on a model's <em>own</em> hidden states (<strong>self-probe</strong>) and on
+              <em>external</em> models' representations (<strong>external-probe</strong>), then measure the
+              <strong>Premium Gap</strong>: the advantage of self over external. We evaluate across three model families
+              (Gemma-2-9B, Llama-3.1-8B, Qwen-2.5-7B) and five datasets spanning factual knowledge and mathematical
+              reasoning.
+            </p>
+          </div>
+          <figure class="wide-figure">
+            <img src="static/images/main_method.png" alt="Overview of the probing framework">
+            <figcaption><strong>Figure 1:</strong> A question is processed by both the target and external models.
+              Probes trained on their hidden states predict the target's correctness. The <em>Premium Gap</em> measures
+              the self-probe's advantage.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The Problem: No Premium Gap -->
+  <section class="section hero is-white">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">The Surprise: No Premium Gap</h2>
+          <div class="content has-text-justified">
+            <p>
+              On full test sets, self-probes offer <strong>no advantage</strong> over external probes. Cross-model
+              probes match or exceed self-probe performance across most settings, suggesting—at first glance—that LLMs
+              have no privileged knowledge about their own correctness.
+            </p>
+          </div>
+          <figure class="wide-figure">
+            <img src="static/images/premium_gap_lr.png" alt="Premium Gap bar chart">
+            <figcaption><strong>Figure 2:</strong> Mean AUC on TriviaQA (factual) and MATH (reasoning). Self-probes
+              (dark) perform comparably to the best cross-model probes (pink), showing no clear premium gap.
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why? The Agreement Confound -->
+  <section class="section hero is-white">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Why? The Agreement Confound</h2>
+          <div class="content has-text-justified">
+            <p>
+              Models agree on correctness <strong>77–83%</strong> of the time. This high consensus lets external probes
+              use their own model's correctness as a proxy, <strong>masking</strong> any genuine privileged signal. To
+              break this confound, we evaluate on <strong>disagreement subsets</strong>—questions where models give
+              conflicting answers—eliminating the external proxy.
+            </p>
+          </div>
+          <figure class="wide-figure">
+            <img src="static/images/agreement_rate.png" alt="Agreement vs Disagreement Rates">
+            <figcaption><strong>Figure 3:</strong> Agreement (blue) vs. disagreement (orange) rates across datasets.
+              High agreement explains why external probes appear to match self-probes on standard evaluations.
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Privileged Knowledge Re-emerges -->
+  <section class="section hero is-white">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Privileged Knowledge Re-emerges</h2>
+          <div class="content has-text-justified">
+            <p>
+              On disagreement subsets, a <strong>statistically significant premium gap</strong> (~5%) re-emerges in
+              factual
+              tasks in 8/9 configs (linear) and 9/9 (MLP). Self-probes outperform all external probes on disagreement
+              subsets, proving that models retain unique internal signals inaccessible
+              to external observers. In contrast, mathematical reasoning shows <strong>no premium gap</strong> even
+              under disagreement: correctness is determined by universal difficulty patterns accessible to any model.
+            </p>
+          </div>
+          <figure class="wide-figure">
+            <img src="static/images/heatmap_gap_lr.png" alt="Heatmap of correctness prediction differences">
+            <figcaption><strong>Figure 4:</strong> Premium gap (∆AUC = Self − Best External) across models and datasets.
+              <strong>Left:</strong> Factual tasks show significant positive gaps on disagreement subsets (bold with *).
+              <strong>Right:</strong> Math tasks show no gap in either setting.
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why the domain difference? -->
+  <section class="section hero is-white">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-full">
+          <h2 class="title is-3">Why the Domain Difference?</h2>
+
+          <div class="columns is-desktop is-centered has-text-left" style="margin-top: 1.5rem;">
+            <!-- Left Box (Factual) -->
+            <div class="column is-half">
+              <div class="box" style="background-color: #f0fdf4; border: 1px solid #bbf7d0; height: 100%;">
+                <h4 class="title is-5" style="color: #166534; margin-bottom: 1rem;">Factual Is Entity-Driven Memory
+                  Retrieval</h4>
+                <div class="content">
+                  <p>
+                    We hypothesize that factual correctness depends on model-specific memory traces. Lexical-only probes (using just entities and nouns) recover up to 75% of probe performance, suggesting the correctness signal stems largely from concept familiarity. The idiosyncratic presence of these memories—unique to each model—may be the source of privileged knowledge in factual tasks.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Box (Math) -->
+            <div class="column is-half">
+              <div class="box" style="background-color: #fef2f2; border: 1px solid #fecaca; height: 100%;">
+                <h4 class="title is-5" style="color: #991b1b; margin-bottom: 1rem;">Math Universal Computational
+                  Patterns</h4>
+                <div class="content">
+                  <p>
+                    Mathematical reasoning, however, appears to follow difficulty patterns observable to any capable model. External predictors derived from peer consensus perform strongly, supporting this hypothesis. While lexical tokens in advanced math (e.g., "eigenvalue") hold some signal, we speculate they merely encode broader topics. These universally observable patterns might explain the absence of privileged knowledge, though further investigation is needed.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <figure class="wide-figure" style="margin-top: 3rem;">
+            <img src="static/images/Aggregated_Bags_Results_lr_qwen_2_5_7b.png" alt="Control Experiments (Qwen-2.5-7B)">
+            <figcaption><strong>Figure 5: Control Experiments (Qwen-2.5-7B).</strong> Compares mean AUC of original probes against two controls. <em>External-Labels</em> (untrained peer consensus) highlights high inter-model agreement, while <em>Lexical-Only</em> (trained solely on entities and nouns) reveals that factual correctness signals rely heavily on entity familiarity.</figcaption>
+          </figure>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Conclusion -->
+  <section class="section hero is-white">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Conclusion</h2>
+          <div class="content has-text-justified">
+            <p>
+              LLMs <em>do</em> possess privileged knowledge about their own correctness—but only in factual domains. Standard evaluation masks this: high inter-model agreement lets external probes exploit peer correctness as a proxy, making the premium gap vanish. Evaluating on disagreement subsets removes this confound and reveals a clear domain split: a significant self-probe advantage in factual tasks, none in mathematical reasoning, pointing to model-specific memory traces as the source of privileged knowledge.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BibTeX -->
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <h2 class="title">BibTeX</h2>
+      <pre><code>@article{ashuach2025masked,
+  title={Masked by Consensus: Disentangling Privileged Knowledge in LLM Correctness},
+  author={Ashuach, Tomer and Ein-Dor, Liat and Gretz, Shai and Katz, Yoav and Belinkov, Yonatan},
+  journal={arXiv preprint},
+  year={2025}
+}</code></pre>
+    </div>
+  </section>
+
+</body>
+
+</html>
