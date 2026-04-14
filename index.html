@@ -15,7 +15,7 @@
   <meta name="description" content="Masked by Consensus: Disentangling Privileged Knowledge in LLM Correctness">
   <meta property="og:title" content="Masked by Consensus: Disentangling Privileged Knowledge in LLM Correctness" />
   <meta property="og:description"
-    content="Do LLMs possess privileged knowledge about their own correctness? We show it is masked by inter-model consensus and re-emerges in factual domains." />
+    content="Do LLMs possess privileged knowledge about their own correctness? We show it is masked by inter-model consensus, re-emerges in factual domains, and localizes to early-to-mid layers onward." />
   <meta property="og:url" content="https://technion-cs-nlp.github.io/CRISP/" />
   <meta property="og:image" content="static/images/main_method.png" />
   <meta property="og:image:width" content="1200" />
@@ -23,7 +23,7 @@
 
   <meta name="twitter:title" content="Masked by Consensus: Disentangling Privileged Knowledge in LLM Correctness">
   <meta name="twitter:description"
-    content="Do LLMs possess privileged knowledge about their own correctness? We show it is masked by inter-model consensus and re-emerges in factual domains.">
+    content="Do LLMs possess privileged knowledge about their own correctness? We show it is masked by inter-model consensus, re-emerges in factual domains, and localizes to early-to-mid layers onward.">
   <meta name="twitter:image" content="static/images/main_method.png">
   <meta name="twitter:card" content="summary_large_image">
 
@@ -117,7 +117,7 @@
 <body>
 
   <!-- Title Section -->
-  <section class="hero publication-title-section" style="background-color: lightblue;">
+  <section class="hero publication-title-section" style="background-color: rgb(69, 144, 69);">
     <div class="hero-body">
       <div class="container is-max-desktop">
         <div class="columns is-centered">
@@ -126,22 +126,23 @@
               Correctness</h1>
             <div class="is-size-5 publication-authors" style="color: #000000 !important;">
               <span class="author-block">
-                <a href="https://tomerashuach.github.io/" target="_blank">Tomer Ashuach</a>,</span>
+                <a href="https://tomerashuach.github.io/" target="_blank">Tomer Ashuach</a><sup>1</sup>,</span>
               <span class="author-block">
                 <a href="https://scholar.google.com/citations?user=V_IZ86YAAAAJ&hl=en" target="_blank">Liat
-                  Ein-Dor</a>,</span>
+                  Ein-Dor</a><sup>2</sup>,</span>
               <span class="author-block">
-                <a href="https://www.linkedin.com/in/shai-gretz-20400666/" target="_blank">Shai Gretz</a>,</span>
+                <a href="https://www.linkedin.com/in/shai-gretz-20400666/" target="_blank">Shai Gretz</a><sup>2</sup>,</span>
               <span class="author-block">
                 <a href="https://scholar.google.com/citations?user=EfW-wnAAAAAJ&hl=en" target="_blank">Yoav
-                  Katz</a>,</span>
+                  Katz</a><sup>2</sup>,</span>
               <span class="author-block">
-                <a href="https://belinkov.com/" target="_blank">Yonatan Belinkov</a>
+                <a href="https://belinkov.com/" target="_blank">Yonatan Belinkov</a><sup>1,3</sup>
               </span>
             </div>
             <div class="is-size-5 publication-authors">
-              <span class="author-block">Technion – Israel Institute of Technology</span>,
-              <span class="author-block">IBM Research</span>
+              <span class="author-block"><sup>1</sup>Technion – Israel Institute of Technology</span><br>
+              <span class="author-block"><sup>2</sup>IBM Research</span><br>
+              <span class="author-block"><sup>3</sup>Kempner Institute, Harvard University</span>
             </div>
 
             <div class="publication-links">
@@ -174,17 +175,20 @@
           <div class="content has-text-justified">
             <p>
               Humans use introspection to evaluate their understanding through private internal states inaccessible to
-              external observers. Recent work suggests that large language models possess similar <em>privileged
-                knowledge</em>—information unavailable through external observation. In this work, we ask whether models
-              have unique signals about answer correctness given only the question. We train correctness classifiers on
-              question representations from both a model's own hidden states and external models, finding no advantage:
-              self-probes perform comparably to peer-model probes. We hypothesize this is due to high inter-model
-              agreement of question-answer correctness. To isolate genuine privileged knowledge, we construct
+              external observers. We investigate whether large language models possess similar <em>privileged
+                knowledge</em> about answer correctness—information unavailable through external observation. We train
+              correctness classifiers on
+              question representations from both a model's own hidden states and external models, testing whether
+              self-representations provide a performance advantage. On standard evaluation, we
+              find no advantage: self-probes perform comparably to peer-model probes. We hypothesize this is due to high
+              inter-model
+              agreement of answer correctness. To isolate genuine privileged knowledge, we evaluate on
               <em>disagreement subsets</em>, where models produce conflicting predictions. Here, we discover
               domain-specific privileged knowledge: self-representations consistently outperform peer representations in
-              factual knowledge tasks, but show no advantage in mathematical reasoning. We explore potential mechanisms
-              underlying this distinction, finding evidence that factual correctness relies on entity-driven memory
-              retrieval while mathematical correctness may involve more universal computational patterns.
+              factual knowledge tasks, but show no advantage in math reasoning. We further localize this
+              domain asymmetry across model layers, finding that the factual advantage emerges progressively from
+              early-to-mid layers onward, consistent with model-specific memory retrieval, while math reasoning shows no
+              consistent advantage at any depth.
             </p>
           </div>
         </div>
@@ -202,16 +206,20 @@
             <p>
               We train correctness probes on a model's <em>own</em> hidden states (<strong>self-probe</strong>) and on
               <em>external</em> models' representations (<strong>external-probe</strong>), then measure the
-              <strong>Premium Gap</strong>: the advantage of self over external. We evaluate across three model families
-              (Gemma-2-9B, Llama-3.1-8B, Qwen-2.5-7B) and five datasets spanning factual knowledge and mathematical
-              reasoning.
+              <strong>Premium Gap</strong>: the performance advantage of self over external probes. We evaluate across
+              three decoder model families
+              (Gemma-2-9B, Llama-3.1-8B, Qwen-2.5-7B), an embedding model (Qwen3-Embedding-8B), and five datasets
+              spanning factual knowledge and mathematical
+              reasoning. We additionally evaluate Qwen-3-32B for scalability analysis.
             </p>
           </div>
           <figure class="wide-figure">
             <img src="static/images/main_method.png" alt="Overview of the probing framework">
-            <figcaption><strong>Figure 1:</strong> A question is processed by both the target and external models.
-              Probes trained on their hidden states predict the target's correctness. The <em>Premium Gap</em> measures
-              the self-probe's advantage.</figcaption>
+            <figcaption><strong>Figure 1:</strong> Questions are input to a target model and to external models,
+              yielding representations. Probes trained on these representations predict answer correctness. We
+              evaluate probe performance using mean AUC averaged over layers and define the <em>Premium Gap</em> as the
+              performance
+              advantage of self over external probes.</figcaption>
           </figure>
         </div>
       </div>
@@ -223,18 +231,22 @@
     <div class="container is-max-desktop">
       <div class="columns is-centered has-text-centered">
         <div class="column is-four-fifths">
-          <h2 class="title is-3">The Surprise: No Premium Gap</h2>
+          <h2 class="title is-3">Full Test Sets Reveal No Premium Gap</h2>
           <div class="content has-text-justified">
             <p>
-              On full test sets, self-probes offer <strong>no advantage</strong> over external probes. Cross-model
-              probes match or exceed self-probe performance across most settings, suggesting—at first glance—that LLMs
-              have no privileged knowledge about their own correctness.
+              On full test sets, self-probes offer <strong>no advantage</strong> over external probes. In factual tasks,
+              self-probes show only a small advantage over embedding model probes, and are comparable to cross-model
+              probes in 2 out of 3 models. In mathematical reasoning, both embedding model and cross-model probes
+              match self-probe performance, yielding a non-existent premium gap. This initial finding
+              suggests—at first glance—that LLMs have no privileged knowledge about their own correctness.
             </p>
           </div>
           <figure class="wide-figure">
             <img src="static/images/premium_gap_lr.png" alt="Premium Gap bar chart">
-            <figcaption><strong>Figure 2:</strong> Mean AUC on TriviaQA (factual) and MATH (reasoning). Self-probes
-              (dark) perform comparably to the best cross-model probes (pink), showing no clear premium gap.
+            <figcaption><strong>Figure 2:</strong> Mean AUC for correctness prediction on TriviaQA (factual) and MATH
+              (reasoning). Bars compare Random, Embedding, and Best Cross-Model baselines to the Self-Probe across three
+              target models. Semi-transparent overlays indicate the performance gain (or lack thereof) of Self relative
+              to each baseline.
             </figcaption>
           </figure>
         </div>
@@ -247,18 +259,22 @@
     <div class="container is-max-desktop">
       <div class="columns is-centered has-text-centered">
         <div class="column is-four-fifths">
-          <h2 class="title is-3">Why? The Agreement Confound</h2>
+          <h2 class="title is-3">The Agreement Confound</h2>
           <div class="content has-text-justified">
             <p>
-              Models agree on correctness <strong>77–83%</strong> of the time. This high consensus lets external probes
-              use their own model's correctness as a proxy, <strong>masking</strong> any genuine privileged signal. To
-              break this confound, we evaluate on <strong>disagreement subsets</strong>—questions where models give
-              conflicting answers—eliminating the external proxy.
+              Models agree on correctness for approximately <strong>80%</strong> of questions in factual tasks and
+              <strong>75%</strong> in mathematical reasoning. This high consensus creates a critical problem: when
+              models agree on the majority of examples, the external model's correctness becomes highly correlated with
+              the target's correctness, allowing external probes to
+              use their own model's correctness as a proxy—<strong>masking</strong> any genuine privileged signal. To
+              break this confound, we evaluate on <strong>disagreement subsets</strong>—questions where models produce
+              conflicting correctness labels—eliminating the external proxy.
             </p>
           </div>
           <figure class="wide-figure">
             <img src="static/images/agreement_rate.png" alt="Agreement vs Disagreement Rates">
-            <figcaption><strong>Figure 3:</strong> Agreement (blue) vs. disagreement (orange) rates across datasets.
+            <figcaption><strong>Figure 4:</strong> Agreement (blue) vs. disagreement (orange) rates across datasets,
+              averaged over all model pairs.
               High agreement explains why external probes appear to match self-probes on standard evaluations.
             </figcaption>
           </figure>
@@ -272,21 +288,31 @@
     <div class="container is-max-desktop">
       <div class="columns is-centered has-text-centered">
         <div class="column is-four-fifths">
-          <h2 class="title is-3">Privileged Knowledge Re-emerges</h2>
+          <h2 class="title is-3">Emergence of Domain-Specific Privileged Knowledge</h2>
           <div class="content has-text-justified">
             <p>
               On disagreement subsets, a <strong>statistically significant premium gap</strong> (~5%) re-emerges in
               factual
-              tasks in 8/9 configs (linear) and 9/9 (MLP). Self-probes outperform all external probes on disagreement
-              subsets, proving that models retain unique internal signals inaccessible
-              to external observers. In contrast, mathematical reasoning shows <strong>no premium gap</strong> even
-              under disagreement: correctness is determined by universal difficulty patterns accessible to any model.
+              tasks across all models, with both linear and MLP probes. Self-probes consistently outperform external
+              probes on disagreement
+              subsets, indicating that when the external proxy fails,
+              external representations cannot fully account for the target model's correctness. The target model retains
+              unique internal signals that remain inaccessible
+              to external observers. In sharp contrast, mathematical reasoning shows <strong>no premium gap</strong>:
+              even
+              on the disagreement subset, external model probes closely match or outperform self-probes across all
+              targets.
             </p>
           </div>
           <figure class="wide-figure">
             <img src="static/images/heatmap_gap_lr.png" alt="Heatmap of correctness prediction differences">
-            <figcaption><strong>Figure 4:</strong> Premium gap (∆AUC = Self − Best External) across models and datasets.
-              <strong>Left:</strong> Factual tasks show significant positive gaps on disagreement subsets (bold with *).
+            <figcaption><strong>Figure 3:</strong> Target Model Correctness Prediction. Heatmap of correctness
+              prediction differences across target
+              models, datasets, and test subsets. Each cell reports the AUC difference (∆AUC = Self − Best External),
+              with
+              the percentage of the gap closed shown in parentheses.
+              <strong>Left:</strong> Factual tasks show significant positive gaps on disagreement subsets (asterisks
+              denote statistical significance).
               <strong>Right:</strong> Math tasks show no gap in either setting.
             </figcaption>
           </figure>
@@ -295,50 +321,71 @@
     </div>
   </section>
 
-  <!-- Why the domain difference? -->
+  <!-- Where Does Privileged Knowledge Emerge? -->
   <section class="section hero is-white">
     <div class="container is-max-desktop">
       <div class="columns is-centered has-text-centered">
-        <div class="column is-full">
-          <h2 class="title is-3">Why the Domain Difference?</h2>
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Where Does Privileged Knowledge Emerge?</h2>
+          <div class="content has-text-justified">
+            <p>
+              We localize the premium gap across network depth by computing the per-layer premium gap (self-probe AUC −
+              best external-probe AUC) on the disagreement subset at each individually probed layer.
+            </p>
+          </div>
 
           <div class="columns is-desktop is-centered has-text-left" style="margin-top: 1.5rem;">
             <!-- Left Box (Factual) -->
             <div class="column is-half">
               <div class="box" style="background-color: #f0fdf4; border: 1px solid #bbf7d0; height: 100%;">
-                <h4 class="title is-5" style="color: #166534; margin-bottom: 1rem;">Factual Is Entity-Driven Memory
-                  Retrieval</h4>
+                <h4 class="title is-5" style="color: #166534; margin-bottom: 1rem;">Factual: Progressive Emergence</h4>
                 <div class="content">
                   <p>
-                    We hypothesize that factual correctness depends on model-specific memory traces. Lexical-only probes (using just entities and nouns) recover up to 75% of probe performance, suggesting the correctness signal stems largely from concept familiarity. The idiosyncratic presence of these memories—unique to each model—may be the source of privileged knowledge in factual tasks.
+                    The premium gap is near zero or slightly negative in early layers—which primarily encode
+                    surface-level and syntactic features—and <strong>grows progressively toward deeper layers</strong>.
+                    The gap becomes reliably positive from approximately layer 10–15 onward (normalized depth
+                    ~0.25–0.40), consistent with the view that the privileged signal reflects <strong>idiosyncratic
+                      memory retrieval states</strong> that build up through the forward pass.
                   </p>
                 </div>
               </div>
+              <figure class="wide-figure" style="margin-top: 1.5rem;">
+                <img src="static/images/layer_premium_gap_factual.png" alt="Per-layer premium gap for factual datasets">
+                <figcaption style="font-size: 0.9rem; margin-top: 0.5rem; text-align: center;"><strong>Figure 5a:</strong> Factual Knowledge. The premium gap is near zero in early layers
+                  and grows progressively toward deeper layers across all models, indicating that privileged knowledge
+                  emerges in early-to-mid representations.</figcaption>
+              </figure>
             </div>
 
             <!-- Right Box (Math) -->
             <div class="column is-half">
               <div class="box" style="background-color: #fef2f2; border: 1px solid #fecaca; height: 100%;">
-                <h4 class="title is-5" style="color: #991b1b; margin-bottom: 1rem;">Math Universal Computational
-                  Patterns</h4>
+                <h4 class="title is-5" style="color: #991b1b; margin-bottom: 1rem;">Math: No Consistent Advantage</h4>
                 <div class="content">
                   <p>
-                    Mathematical reasoning, however, appears to follow difficulty patterns observable to any capable model. External predictors derived from peer consensus perform strongly, supporting this hypothesis. While lexical tokens in advanced math (e.g., "eigenvalue") hold some signal, we speculate they merely encode broader topics. These universally observable patterns might explain the absence of privileged knowledge, though further investigation is needed.
+                    For MATH, the premium gap <strong>fluctuates near zero</strong> across all layers and models with no
+                    systematic trend. For GSM1K, the gap is <strong>predominantly negative</strong>—external probes
+                    outperform self-probes at most depths. Mathematical correctness signals appear to be publicly
+                    accessible at every depth of the network, confirming that reasoning difficulty is governed by
+                    problem structure rather than model-specific knowledge.
                   </p>
                 </div>
               </div>
+              <figure class="wide-figure" style="margin-top: 1.5rem;">
+                <img src="static/images/layer_premium_gap_math.png"
+                  alt="Per-layer premium gap for mathematical reasoning">
+                <figcaption style="font-size: 0.9rem; margin-top: 0.5rem; text-align: center;"><strong>Figure 5b:</strong> Mathematical Reasoning. MATH fluctuates near zero at all depths
+                  and GSM1K is predominantly negative. No layer exhibits a consistent self-probe advantage across the
+                  full network depth.</figcaption>
+              </figure>
             </div>
           </div>
-
-          <figure class="wide-figure" style="margin-top: 3rem;">
-            <img src="static/images/Aggregated_Bags_Results_lr_qwen_2_5_7b.png" alt="Control Experiments (Qwen-2.5-7B)">
-            <figcaption><strong>Figure 5: Control Experiments (Qwen-2.5-7B).</strong> Compares mean AUC of original probes against two controls. <em>External-Labels</em> (untrained peer consensus) highlights high inter-model agreement, while <em>Lexical-Only</em> (trained solely on entities and nouns) reveals that factual correctness signals rely heavily on entity familiarity.</figcaption>
-          </figure>
 
         </div>
       </div>
     </div>
   </section>
+
 
   <!-- Conclusion -->
   <section class="section hero is-white">
@@ -348,7 +395,19 @@
           <h2 class="title is-3">Conclusion</h2>
           <div class="content has-text-justified">
             <p>
-              LLMs <em>do</em> possess privileged knowledge about their own correctness—but only in factual domains. Standard evaluation masks this: high inter-model agreement lets external probes exploit peer correctness as a proxy, making the premium gap vanish. Evaluating on disagreement subsets removes this confound and reveals a clear domain split: a significant self-probe advantage in factual tasks, none in mathematical reasoning, pointing to model-specific memory traces as the source of privileged knowledge.
+              Our key methodological contribution is identifying inter-model agreement as a critical confound: when
+              models share correctness patterns, external probes exploit peer correctness as a proxy, masking genuine
+              privileged signals. Evaluating on disagreement subsets reveals that privileged knowledge is
+              <em>domain-specific</em>—it emerges consistently in factual tasks, while mathematical reasoning
+              correctness remains externally observable.
+            </p>
+            <p>
+              These findings reconcile prior conflicting results: privileged knowledge does exist, but is
+              domain-specific and was previously masked by inter-model agreement. Beyond correctness prediction, our
+              disagreement-based methodology can be extended to study privileged knowledge in hybrid domains (coding,
+              commonsense reasoning) and other forms of model introspection. Practically, our results suggest that
+              model-specific activations carry signals that black-box tools miss, with potential applications in
+              hallucination detection and monitoring.
             </p>
           </div>
         </div>
@@ -360,11 +419,11 @@
   <section class="section" id="BibTeX">
     <div class="container is-max-desktop content">
       <h2 class="title">BibTeX</h2>
-      <pre><code>@article{ashuach2025masked,
+      <pre><code>@article{ashuach2026masked,
   title={Masked by Consensus: Disentangling Privileged Knowledge in LLM Correctness},
   author={Ashuach, Tomer and Ein-Dor, Liat and Gretz, Shai and Katz, Yoav and Belinkov, Yonatan},
   journal={arXiv preprint},
-  year={2025}
+  year={2026}
 }</code></pre>
     </div>
   </section>
